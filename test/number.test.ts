@@ -3,11 +3,11 @@ import generateFixture from './generateFixture'
 test('numbers', async () => {
   expect((await generateFixture('number', ['A'])).getText())
     .toMatchInlineSnapshot(`
-    "import { Number, Static } from 'runtypes';
+    "import { number, infer as Infer } from 'zod';
 
-    export const A = Number;
+    export const A = number();
 
-    export type A = Static<typeof A>;
+    export type A = Infer<typeof A>;
     "
   `)
 })

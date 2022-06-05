@@ -4,19 +4,19 @@ import generateFixture from './generateFixture'
 test('strict nulls', async () => {
   expect((await generateFixture('null', ['A', 'B', 'C'])).getText())
     .toMatchInlineSnapshot(`
-    "import { Null, Static, String, Record, Undefined } from 'runtypes';
+    "import { null as Null, infer as Infer, string, object, undefined as Undefined } from 'zod';
 
-    export const A = Null;
+    export const A = Null();
 
-    export type A = Static<typeof A>;
+    export type A = Infer<typeof A>;
 
-    export const B = Null.Or(String);
+    export const B = Null().or(string());
 
-    export type B = Static<typeof B>;
+    export type B = Infer<typeof B>;
 
-    export const C = Record({ a: Null, b: Null.Or(String), c: Null.Or(String).Or(Undefined).optional(), });
+    export const C = object({ a: Null(), b: Null().or(string()), c: Null().or(string()).or(Undefined()).optional(), });
 
-    export type C = Static<typeof C>;
+    export type C = Infer<typeof C>;
     "
   `)
 })
@@ -31,24 +31,25 @@ test('non-strict nulls', async () => {
             usePrefixAndSuffixTextForRename: false,
             useTrailingCommas: true,
           },
+
           skipAddingFilesFromTsConfig: true,
         }),
       })
     ).getText()
   ).toMatchInlineSnapshot(`
-    "import { Null, Static, String, Record } from 'runtypes';
+    "import { null as Null, infer as Infer, string, object } from 'zod';
 
-    export const A = Null;
+    export const A = Null();
 
-    export type A = Static<typeof A>;
+    export type A = Infer<typeof A>;
 
-    export const B = String;
+    export const B = string();
 
-    export type B = Static<typeof B>;
+    export type B = Infer<typeof B>;
 
-    export const C = Record({ a: Null, b: String, c: String.optional(), });
+    export const C = object({ a: Null(), b: string(), c: string().optional(), });
 
-    export type C = Static<typeof C>;
+    export type C = Infer<typeof C>;
     "
   `)
 })

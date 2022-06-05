@@ -12,16 +12,16 @@ import unionTypeWriter from './union'
 export default function factory(type: Type, name?: string) {
   switch (true) {
     case type.isNull():
-      return simpleTypeWriter('Null')
+      return simpleTypeWriter('null')
 
     case type.isString():
-      return simpleTypeWriter('String')
+      return simpleTypeWriter('string')
 
     case type.isNumber():
-      return simpleTypeWriter('Number')
+      return simpleTypeWriter('number')
 
     case type.isBoolean():
-      return simpleTypeWriter('Boolean')
+      return simpleTypeWriter('boolean')
 
     case type.isArray():
       return arrayTypeWriter(type)
@@ -43,13 +43,13 @@ export default function factory(type: Type, name?: string) {
 
     case type.isAny():
     case type.isUnknown():
-      return simpleTypeWriter('Unknown')
+      return simpleTypeWriter('unknown')
 
     case type.isUndefined():
-      return simpleTypeWriter('Undefined')
+      return simpleTypeWriter('undefined')
 
     case type.getText() === 'void':
-      return simpleTypeWriter('Void')
+      return simpleTypeWriter('void')
 
     case type.getCallSignatures().length > 0:
       return functionTypeWriter(type, name)

@@ -17,7 +17,7 @@ export default async function generateFixture(
   } = {}
 ) {
   const generator = new Generator({
-    targetFile: pathHelper.join(__dirname, `${name}.runtypes.ts`),
+    targetFile: pathHelper.join(__dirname, `${name}.zod.ts`),
     project,
     ...generatorOpts,
   })

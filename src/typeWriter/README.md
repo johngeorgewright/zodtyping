@@ -9,7 +9,7 @@ function* simpleTypeWriter(type: string): TypeWriter {
 }
 ```
 
-`simpleTypeWriter('String')` would instruct the generator to import the given type from `runtypes` then write the word `String`. Using this technique means it can be used by other type generators:
+`simpleTypeWriter('String')` would instruct the generator to import the given type from `zod` then write the word `String`. Using this technique means it can be used by other type generators:
 
 ```typescript
 function* stringArrayTypeWriter(): TypeWriter {

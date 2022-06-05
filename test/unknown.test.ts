@@ -3,15 +3,15 @@ import generateFixture from './generateFixture'
 test('unknown', async () => {
   expect((await generateFixture('unknown', ['A', 'B'])).getText())
     .toMatchInlineSnapshot(`
-    "import { Unknown, Static } from 'runtypes';
+    "import { unknown as Unknown, infer as Infer } from 'zod';
 
-    export const A = Unknown;
+    export const A = Unknown();
 
-    export type A = Static<typeof A>;
+    export type A = Infer<typeof A>;
 
-    export const B = Unknown;
+    export const B = Unknown();
 
-    export type B = Static<typeof B>;
+    export type B = Infer<typeof B>;
     "
   `)
 })

@@ -3,11 +3,11 @@ import generateFixture from './generateFixture'
 test('optional property', async () => {
   expect((await generateFixture('optional', ['A'])).getText())
     .toMatchInlineSnapshot(`
-    "import { Record, String, Undefined, Static } from 'runtypes';
+    "import { object, string, undefined as Undefined, infer as Infer } from 'zod';
 
-    export const A = Record({ foo: String.Or(Undefined).optional(), });
+    export const A = object({ foo: string().or(Undefined()).optional(), });
 
-    export type A = Static<typeof A>;
+    export type A = Infer<typeof A>;
     "
   `)
 })

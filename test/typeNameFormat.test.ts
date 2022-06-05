@@ -11,15 +11,15 @@ test('mapRuntypeName', async () => {
   ).getText()
 
   expect(actual).toMatchInlineSnapshot(`
-    "import { Record, String, Static, Array } from 'runtypes';
+    "import { object, string, infer as Infer, array } from 'zod';
 
-    export const MappedAFoo = Record({ foo: String, });
+    export const MappedAFoo = object({ foo: string(), });
 
-    export type MappedABar = Static<typeof MappedAFoo>;
+    export type MappedABar = Infer<typeof MappedAFoo>;
 
-    export const MappedBFoo = Record({ bar: MappedAFoo, baz: MappedAFoo, nest: Record({ baz2: Array(MappedAFoo), }), });
+    export const MappedBFoo = object({ bar: MappedAFoo, baz: MappedAFoo, nest: object({ baz2: array(MappedAFoo), }), });
 
-    export type MappedBBar = Static<typeof MappedBFoo>;
+    export type MappedBBar = Infer<typeof MappedBFoo>;
     "
   `)
 })

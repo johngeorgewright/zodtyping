@@ -5,9 +5,11 @@ import { dirname, extname, isAbsolute, resolve as resolvePath } from 'path'
 import {
   EnumDeclaration,
   FunctionDeclaration,
+  ImportSpecifierStructure,
   IndentationText,
   InterfaceDeclaration,
   NewLineKind,
+  OptionalKind,
   Project,
   QuoteKind,
   SourceFile,
@@ -16,7 +18,7 @@ import {
   VariableDeclaration,
   VariableDeclarationKind,
 } from 'ts-morph'
-import { InstructionSourceType } from './runtypes'
+import { InstructionSourceType } from './zod.types'
 import factory from './typeWriter/factory'
 import {
   Declare,
@@ -28,7 +30,13 @@ import {
 } from './typeWriter/symbols'
 import typeNameFormatter, { TypeNameFormatter } from './typeNameFormatter'
 import { DeclaredType } from './typeWriter/TypeWriter'
-import { doInModule, find, findInModule, getRelativeImportPath } from './util'
+import {
+  doInModule,
+  find,
+  findInModule,
+  getRelativeImportPath,
+  setHas,
+} from './util'
 
 type GeneratorOptionsBase =
   | {
@@ -52,7 +60,7 @@ export default class Generator {
   #formatRuntypeName: TypeNameFormatter
   #formatTypeName: TypeNameFormatter
   #project: Project
-  #runtypesImports = new Set<string>()
+  #zodImports = new Set<string | OptionalKind<ImportSpecifierStructure>>()
   #targetFile: SourceCodeFile
 
   constructor(options: GeneratorOptions) {
@@ -109,8 +117,8 @@ export default class Generator {
     }
 
     this.#targetFile.addImportDeclaration({
-      namedImports: [...this.#runtypesImports],
-      moduleSpecifier: 'runtypes',
+      namedImports: [...this.#zodImports],
+      moduleSpecifier: 'zod',
     })
 
     this.#targetFile.formatText()
@@ -183,8 +191,8 @@ export default class Generator {
     let writer = this.#project.createWriter()
 
     if (recursive) {
-      this.#runtypesImports.add('Lazy')
-      writer = writer.write('Lazy(() => ')
+      this.#zodImports.add('lazy')
+      writer = writer.write('lazy(() => ')
     }
 
     IteratorHandler.create(
@@ -193,9 +201,7 @@ export default class Generator {
       .handle(Write, (value) => {
         writer = writer.write(value)
       })
-      .handle(Import, (value) => {
-        this.#runtypesImports.add(value)
-      })
+      .handle(Import, this.#import)
       .handle(ImportFromSource, ({ name, alias }) => {
         sourceImports.set(name, alias)
       })
@@ -239,8 +245,8 @@ export default class Generator {
 
       if (exportStaticType) {
         if (!staticImplementation) {
-          this.#runtypesImports.add('Static')
-          staticImplementation = `Static<typeof ${name}>`
+          this.#import({ alias: 'Infer', name: 'infer' })
+          staticImplementation = `Infer<typeof ${name}>`
         }
 
         node.addTypeAlias({
@@ -257,6 +263,19 @@ export default class Generator {
       runTypeName,
       typeName,
     }
+  }
+
+  #import = (value: string | OptionalKind<ImportSpecifierStructure>) => {
+    if (
+      typeof value === 'object' &&
+      setHas(this.#zodImports, (zodImport) =>
+        typeof zodImport === 'object'
+          ? zodImport.name === value.name
+          : zodImport === value.name
+      )
+    )
+      return
+    this.#zodImports.add(value)
   }
 
   #getTypeDeclaration(

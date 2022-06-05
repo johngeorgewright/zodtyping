@@ -4,7 +4,14 @@ import TypeWriter from './TypeWriter'
 import { Import, Write } from './symbols'
 
 export default function* objectTypeWriter(type: Type): TypeWriter {
-  const isBuiltInType = type
+  if (isBuiltInType(type)) yield* generateBuildInType(type)
+  else if (type.getStringIndexType()) yield* generateStringIndexType(type)
+  else if (type.getNumberIndexType()) yield* generateNumberIndexType(type)
+  else yield* generateObject(type)
+}
+
+function isBuiltInType(type: Type) {
+  return type
     .getSymbolOrThrow()
     .getDeclarations()
     .some((d) => {
@@ -22,15 +29,32 @@ export default function* objectTypeWriter(type: Type): TypeWriter {
       }
       return false
     })
+}
 
-  if (isBuiltInType) return yield* generateBuildInType(type)
-  else if (type.getStringIndexType())
-    return yield* generateStringIndexType(type)
-  else if (type.getNumberIndexType())
-    return yield* generateNumberIndexType(type)
+function* generateBuildInType(type: Type): TypeWriter {
+  yield [Import, { name: 'instanceof', alias: 'InstanceOf' }]
+  yield [Write, `InstanceOf(${type.getText()})`]
+}
 
-  yield [Import, 'Record']
-  yield [Write, 'Record({']
+function* generateStringIndexType(type: Type): TypeWriter {
+  yield [Import, 'record']
+  yield [Import, 'string']
+  yield [Write, 'record(string(), ']
+  yield* generateOrReuseType(type.getStringIndexType()!)
+  yield [Write, ')']
+}
+
+function* generateNumberIndexType(type: Type): TypeWriter {
+  yield [Import, 'record']
+  yield [Import, 'number']
+  yield [Write, 'record(number(), ']
+  yield* generateOrReuseType(type.getNumberIndexType()!)
+  yield [Write, ')']
+}
+
+function* generateObject(type: Type): TypeWriter {
+  yield [Import, 'object']
+  yield [Write, 'object({']
 
   for (const property of type.getProperties()) {
     yield [
@@ -48,27 +72,6 @@ export default function* objectTypeWriter(type: Type): TypeWriter {
   }
 
   yield [Write, '})']
-}
-
-function* generateBuildInType(type: Type): TypeWriter {
-  yield [Import, 'InstanceOf']
-  yield [Write, `InstanceOf(${type.getText()})`]
-}
-
-function* generateStringIndexType(type: Type): TypeWriter {
-  yield [Import, 'Dictionary']
-  yield [Import, 'String']
-  yield [Write, 'Dictionary(']
-  yield* generateOrReuseType(type.getStringIndexType()!)
-  yield [Write, ', String)']
-}
-
-function* generateNumberIndexType(type: Type): TypeWriter {
-  yield [Import, 'Dictionary']
-  yield [Import, 'Number']
-  yield [Write, 'Dictionary(']
-  yield* generateOrReuseType(type.getNumberIndexType()!)
-  yield [Write, ', Number)']
 }
 
 function propNameRequiresQuotes(propName: string) {

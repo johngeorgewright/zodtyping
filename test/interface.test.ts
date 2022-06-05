@@ -4,17 +4,17 @@ test('interface', async () => {
   expect((await generateFixture('interface', ['B', 'C'])).getText())
     .toMatchInlineSnapshot(`
     "import { foo as _foo, boo as _boo } from './interface';
-    import { Record, String, Number, Boolean, Static, Literal, Contract, Void } from 'runtypes';
+    import { object, string, number, boolean, infer as Infer, literal, function as Function, void as Void } from 'zod';
 
-    export const A = Record({ foo: String, bar: Number, [\`has spaces\`]: Boolean, [\`+1\`]: Boolean, [\`-1\`]: Boolean, __underscores__: Boolean, $dollar: Boolean, [\`\\\\\${escaped template vars}\`]: Boolean, });
+    export const A = object({ foo: string(), bar: number(), [\`has spaces\`]: boolean(), [\`+1\`]: boolean(), [\`-1\`]: boolean(), __underscores__: boolean(), $dollar: boolean(), [\`\\\\\${escaped template vars}\`]: boolean(), });
 
-    export type A = Static<typeof A>;
+    export type A = Infer<typeof A>;
 
-    export const B = Record({ a: A, b: Literal(\\"B\\"), });
+    export const B = object({ a: A, b: literal(\\"B\\"), });
 
-    export type B = Static<typeof B>;
+    export type B = Infer<typeof B>;
 
-    export const C = Record({ foo: Contract(String), bar: Number, boo: Contract(String, Void), });
+    export const C = object({ foo: Function().args().returns(string()), bar: number(), boo: Function().args(string(),).returns(Void()), });
 
     export type C = _boo;
     "

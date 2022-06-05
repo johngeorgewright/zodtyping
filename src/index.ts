@@ -1,2 +1,2 @@
 export { default as Generator } from './Generator'
-export * from './runtypes'
+export * from './zod.types'

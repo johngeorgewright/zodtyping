@@ -18,8 +18,8 @@ export default function* enumMemberTypeWriter(
     enumType.getAliasSymbol()?.getName() || enumType.getSymbol()?.getName()
 
   if (enumTypeName) {
-    yield [Import, 'Literal']
+    yield [Import, 'literal']
     yield [ImportFromSource, { name: enumTypeName, alias: `_${enumTypeName}` }]
-    yield [Write, `Literal(_${enumTypeName}.${enumMemberTypeName})`]
+    yield [Write, `literal(_${enumTypeName}.${enumMemberTypeName})`]
   }
 }

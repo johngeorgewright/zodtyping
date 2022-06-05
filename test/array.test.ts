@@ -3,15 +3,15 @@ import generateFixture from './generateFixture'
 test('array', async () => {
   expect((await generateFixture('array', ['B'])).getText())
     .toMatchInlineSnapshot(`
-    "import { Array, String, Number, Record, Static } from 'runtypes';
+    "import { array, string, number, object, infer as Infer } from 'zod';
 
-    export const A = Record({ foo: String, });
+    export const A = object({ foo: string(), });
 
-    export type A = Static<typeof A>;
+    export type A = Infer<typeof A>;
 
-    export const B = Array(String.Or(Number).Or(A));
+    export const B = array(string().or(number()).or(A));
 
-    export type B = Static<typeof B>;
+    export type B = Infer<typeof B>;
     "
   `)
 })

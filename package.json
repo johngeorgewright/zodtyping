@@ -1,16 +1,15 @@
 {
-  "name": "runtyping",
-  "version": "4.5.1",
-  "description": "Generate runtypes from static types & JSON schema.",
+  "name": "zodtyping",
+  "version": "0.0.0",
+  "description": "Generate zod types from static types & JSON schema.",
   "main": "dist/index.js",
   "bin": {
-    "rungen": "dist/cli.js",
-    "runtyping": "dist/cli.js"
+    "zodtyping": "dist/cli.js"
   },
   "scripts": {
     "build": "yarn clean && tsc --project tsconfig.json",
     "clean": "rimraf dist",
-    "schema": "typescript-json-schema --out runtyping.schema.json src/runtypes.ts Instructions && prettier --write runtype.schema.json",
+    "schema": "typescript-json-schema --out zodtyping.schema.json src/zod.ts Instructions && prettier --write zodtyping.schema.json",
     "start": "concurrently --names build,test 'yarn start:build' 'yarn start:test'",
     "start:build": "tsc --watch --preserveWatchOutput",
     "start:test": "jest --watch",
@@ -19,15 +18,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/johngeorgewright/runtyping.git"
+    "url": "git+https://github.com/johngeorgewright/zodtyping.git"
   },
   "keywords": [],
   "author": "John Wright <johngeorge.wright@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/johngeorgewright/runtyping/issues"
+    "url": "https://github.com/johngeorgewright/zodtyping/issues"
   },
-  "homepage": "https://github.com/johngeorgewright/runtyping#readme",
+  "homepage": "https://github.com/johngeorgewright/zodtyping#readme",
   "devDependencies": {
     "@commitlint/cli": "16.3.0",
     "@commitlint/config-conventional": "16.2.4",
@@ -50,19 +49,19 @@
     "lint-staged": "12.4.1",
     "prettier": "2.6.2",
     "rimraf": "3.0.2",
-    "runtypes": "6.5.1",
     "semantic-release": "19.0.2",
     "source-map-support": "0.5.21",
     "ts-jest": "28.0.2",
     "ts-node": "10.7.0",
     "typescript": "4.6.4",
-    "typescript-json-schema": "0.53.0"
+    "typescript-json-schema": "0.53.0",
+    "zod": "3.17.3"
   },
   "lint-staged": {
     "*.{md,json,js,jsx,ts,tsx,yml,yaml}": [
       "yarn prettier --write"
     ],
-    "src/runtypes.ts": [
+    "src/zod.ts": [
       "yarn schema"
     ]
   },
@@ -70,9 +69,6 @@
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
-  },
-  "peerDependencies": {
-    "runtypes": "^6.4.0"
   },
   "dependencies": {
     "@johngw/array": "3.3.0",
@@ -83,6 +79,9 @@
     "ts-morph": "14.0.0",
     "tslib": "2.4.0",
     "yargs": "17.5.1"
+  },
+  "peerDependencies": {
+    "zod": "^3.0.0"
   },
   "packageManager": "yarn@3.2.1"
 }

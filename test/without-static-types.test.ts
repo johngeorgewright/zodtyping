@@ -6,9 +6,9 @@ test('dont generate static types', async () => {
       await generateFixture('string', ['A'], { exportStaticType: false })
     ).getText()
   ).toMatchInlineSnapshot(`
-    "import { String } from 'runtypes';
+    "import { string } from 'zod';
 
-    export const A = String;
+    export const A = string();
     "
   `)
 })

@@ -3,7 +3,7 @@ import Generator from '../src/Generator'
 
 test('json schema', async () => {
   const generator = new Generator({
-    targetFile: pathHelper.join(__dirname, `maxItems.schema.runtypes.ts`),
+    targetFile: pathHelper.join(__dirname, `maxItems.schema.zod.ts`),
   })
 
   const file = await generator.generate({
@@ -12,11 +12,11 @@ test('json schema', async () => {
   })
 
   expect(file!.getText()).toMatchInlineSnapshot(`
-    "import { Record, Tuple, Dictionary, String, Unknown, Undefined, Static } from 'runtypes';
+    "import { object, tuple, record, string, unknown as Unknown, undefined as Undefined, infer as Infer } from 'zod';
 
-    export const ExampleSchema = Record({ testArray: Tuple().Or(Tuple(Dictionary(Unknown, String),)).Or(Tuple(Dictionary(Unknown, String), Dictionary(Unknown, String),)).Or(Undefined).optional(), });
+    export const ExampleSchema = object({ testArray: tuple().or(tuple(record(string(), Unknown()),)).or(tuple(record(string(), Unknown()), record(string(), Unknown()),)).or(Undefined()).optional(), });
 
-    export type ExampleSchema = Static<typeof ExampleSchema>;
+    export type ExampleSchema = Infer<typeof ExampleSchema>;
     "
   `)
 })

@@ -3,19 +3,19 @@ import generateFixture from './generateFixture'
 test('inheritance', async () => {
   expect((await generateFixture('inheritance', ['C', 'D', 'E'])).getText())
     .toMatchInlineSnapshot(`
-    "import { Record, String, Static, Number, Literal } from 'runtypes';
+    "import { object, string, infer as Infer, number, literal } from 'zod';
 
-    export const C = Record({ bar: String, foo: String, });
+    export const C = object({ bar: string(), foo: string(), });
 
-    export type C = Static<typeof C>;
+    export type C = Infer<typeof C>;
 
-    export const D = Record({ bar: Number, moo: String, foo: Number, car: String, });
+    export const D = object({ bar: number(), moo: string(), foo: number(), car: string(), });
 
-    export type D = Static<typeof D>;
+    export type D = Infer<typeof D>;
 
-    export const E = Record({ imported: Literal(true), });
+    export const E = object({ imported: literal(true), });
 
-    export type E = Static<typeof E>;
+    export type E = Infer<typeof E>;
     "
   `)
 })

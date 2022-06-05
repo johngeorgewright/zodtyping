@@ -14,6 +14,11 @@ export function find<T, O>(array: T[], fn: (item: T) => O | false): O | void {
   }
 }
 
+export function setHas<T>(set: Set<T>, predicate: (item: T) => boolean) {
+  for (const item of set) if (predicate(item)) return true
+  return false
+}
+
 export function getRelativeImportPath(localPath: string, remotePath: string) {
   if (!/^(\/|\.)/.test(remotePath)) return remotePath
   const localDir = dirname(localPath)

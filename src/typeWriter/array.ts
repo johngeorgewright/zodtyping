@@ -4,8 +4,8 @@ import TypeWriter from './TypeWriter'
 import { Import, Write } from './symbols'
 
 export default function* arrayTypeWriter(type: Type): TypeWriter {
-  yield [Import, 'Array']
-  yield [Write, 'Array(']
+  yield [Import, 'array']
+  yield [Write, 'array(']
   yield* generateOrReuseType(type.getArrayElementTypeOrThrow())
   yield [Write, ')']
 }

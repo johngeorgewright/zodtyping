@@ -3,19 +3,19 @@ import generateFixture from './generateFixture'
 test('literal', async () => {
   expect((await generateFixture('literal', ['A', 'B', 'C'])).getText())
     .toMatchInlineSnapshot(`
-    "import { Literal, Static } from 'runtypes';
+    "import { literal, infer as Infer } from 'zod';
 
-    export const A = Literal(\\"foo\\");
+    export const A = literal(\\"foo\\");
 
-    export type A = Static<typeof A>;
+    export type A = Infer<typeof A>;
 
-    export const B = Literal(2);
+    export const B = literal(2);
 
-    export type B = Static<typeof B>;
+    export type B = Infer<typeof B>;
 
-    export const C = Literal(true);
+    export const C = literal(true);
 
-    export type C = Static<typeof C>;
+    export type C = Infer<typeof C>;
     "
   `)
 })

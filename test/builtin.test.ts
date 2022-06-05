@@ -3,11 +3,11 @@ import generateFixture from './generateFixture'
 test('builtin', async () => {
   expect((await generateFixture('builtin', ['A'])).getText())
     .toMatchInlineSnapshot(`
-    "import { Record, InstanceOf, Static } from 'runtypes';
+    "import { object, instanceof as InstanceOf, infer as Infer } from 'zod';
 
-    export const A = Record({ a: InstanceOf(Uint8Array), });
+    export const A = object({ a: InstanceOf(Uint8Array), });
 
-    export type A = Static<typeof A>;
+    export type A = Infer<typeof A>;
     "
   `)
 })

@@ -14,12 +14,11 @@ export default function* functionTypeWriter(
     type.getAliasSymbol()?.getName() ||
     type.getSymbolOrThrow().getName()
 
-  const contract = isAsync(signature) ? 'AsyncContract' : 'Contract'
   const importAlias = `_${name}`
 
   yield [ImportFromSource, { name, alias: importAlias }]
-  yield [Import, contract]
-  yield [Write, `${contract}(`]
+  yield [Import, { name: 'function', alias: 'Function' }]
+  yield [Write, 'Function().args(']
 
   for (const param of signature.getParameters()) {
     const paramDec = last(param.getDeclarations())
@@ -28,6 +27,8 @@ export default function* functionTypeWriter(
       yield [Write, '.optional()']
     yield [Write, ',']
   }
+
+  yield [Write, ').returns(']
 
   yield* generateOrReuseType(
     isAsync(signature)
@@ -38,7 +39,7 @@ export default function* functionTypeWriter(
   yield [Write, ')']
 
   if (isFunctionDeclaration(type)) {
-    yield [Write, `.enforce(${importAlias})`]
+    yield [Write, `.implement(${importAlias})`]
     yield [Static, `typeof ${name}`]
   } else yield [Static, importAlias]
 }

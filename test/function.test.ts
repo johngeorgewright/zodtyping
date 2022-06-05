@@ -8,29 +8,29 @@ test('function', async () => {
     ).getText()
   ).toMatchInlineSnapshot(`
     "import { A as _A, B as _B, C as _C, D as _D, E as _E, F as _F } from './function';
-    import { Contract, String, Number, Void, Undefined, Unknown, AsyncContract } from 'runtypes';
+    import { function as Function, string, number, void as Void, undefined as Undefined, unknown as Unknown } from 'zod';
 
-    export const A = Contract(String, Number, Void);
+    export const A = Function().args(string(), number(),).returns(Void());
 
     export type A = _A;
 
-    export const B = Contract(Number, Void);
+    export const B = Function().args(number(),).returns(Void());
 
     export type B = _B;
 
-    export const C = Contract(String, Number.Or(Undefined), Unknown);
+    export const C = Function().args(string(), number().or(Undefined()),).returns(Unknown());
 
     export type C = _C;
 
-    export const D = Contract(Number, String).enforce(_D);
+    export const D = Function().args(number(),).returns(string()).implement(_D);
 
     export type D = typeof D;
 
-    export const E = AsyncContract(Number, String).enforce(_E);
+    export const E = Function().args(number(),).returns(string()).implement(_E);
 
     export type E = typeof E;
 
-    export const F = Contract(Number, String);
+    export const F = Function().args(number(),).returns(string());
 
     export type F = _F;
     "
@@ -54,9 +54,9 @@ test('function with non-strict nulls', async () => {
     ).getText()
   ).toMatchInlineSnapshot(`
     "import { C as _C } from './function';
-    import { Contract, String, Number, Unknown } from 'runtypes';
+    import { function as Function, string, number, unknown as Unknown } from 'zod';
 
-    export const C = Contract(String, Number.optional(), Unknown);
+    export const C = Function().args(string(), number().optional(),).returns(Unknown());
 
     export type C = _C;
     "

@@ -8,7 +8,10 @@ import {
 } from './symbols'
 
 type TypeWriter<R = any> = Generator<
-  | [action: typeof Import, runtypeName: string]
+  | [
+      action: typeof Import,
+      importDeclaration: string | { name: string; alias: string }
+    ]
   | [
       action: typeof ImportFromSource,
       sourceType: { name: string; alias: string }

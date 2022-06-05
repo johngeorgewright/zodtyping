@@ -3,11 +3,11 @@ import generateFixture from './generateFixture'
 test('boolean', async () => {
   expect((await generateFixture('boolean', ['A'])).getText())
     .toMatchInlineSnapshot(`
-    "import { Boolean, Static } from 'runtypes';
+    "import { boolean, infer as Infer } from 'zod';
 
-    export const A = Boolean;
+    export const A = boolean();
 
-    export type A = Static<typeof A>;
+    export type A = Infer<typeof A>;
     "
   `)
 })

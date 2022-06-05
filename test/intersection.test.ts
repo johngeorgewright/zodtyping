@@ -3,19 +3,19 @@ import generateFixture from './generateFixture'
 test('intersection', async () => {
   expect((await generateFixture('intersection', ['C'])).getText())
     .toMatchInlineSnapshot(`
-    "import { Record, String, Static } from 'runtypes';
+    "import { object, string, infer as Infer } from 'zod';
 
-    export const A = Record({ foo: String, });
+    export const A = object({ foo: string(), });
 
-    export type A = Static<typeof A>;
+    export type A = Infer<typeof A>;
 
-    export const B = Record({ bar: String, });
+    export const B = object({ bar: string(), });
 
-    export type B = Static<typeof B>;
+    export type B = Infer<typeof B>;
 
-    export const C = A.And(B);
+    export const C = A.and(B);
 
-    export type C = Static<typeof C>;
+    export type C = Infer<typeof C>;
     "
   `)
 })

@@ -6,27 +6,27 @@ test('namespace', async () => {
       await generateFixture('namespace', ['A.B', 'B.C.D', 'A.C', 'A.D'])
     ).getText()
   ).toMatchInlineSnapshot(`
-    "import { Record, String, Static, Number, Unknown } from 'runtypes';
+    "import { object, string, infer as Infer, number, unknown as Unknown } from 'zod';
 
     export namespace A {
-      export const B = Record({ C: String, });
+      export const B = object({ C: string(), });
 
-      export type B = Static<typeof B>;
+      export type B = Infer<typeof B>;
 
-      export const C = Unknown;
+      export const C = Unknown();
 
-      export type C = Static<typeof C>;
+      export type C = Infer<typeof C>;
 
-      export const D = Record({ E: Number, });
+      export const D = object({ E: number(), });
 
-      export type D = Static<typeof D>;
+      export type D = Infer<typeof D>;
     }
 
     export namespace B {
       export namespace C {
-        export const D = Number;
+        export const D = number();
 
-        export type D = Static<typeof D>;
+        export type D = Infer<typeof D>;
       }
     }
     "

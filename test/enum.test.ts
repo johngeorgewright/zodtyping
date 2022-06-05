@@ -4,19 +4,19 @@ test('enum', async () => {
   expect((await generateFixture('enum', ['A', 'B', 'D'])).getText())
     .toMatchInlineSnapshot(`
     "import { A as _A, B as _B, C as _C } from './enum';
-    import { Guard, Static, Literal } from 'runtypes';
+    import { nativeEnum, infer as Infer, literal } from 'zod';
 
-    export const A = Guard((x: any): x is _A => Object.values(_A).includes(x));
+    export const A = nativeEnum(_A);
 
-    export type A = Static<typeof A>;
+    export type A = Infer<typeof A>;
 
-    export const B = Guard((x: any): x is _B => Object.values(_B).includes(x));
+    export const B = nativeEnum(_B);
 
-    export type B = Static<typeof B>;
+    export type B = Infer<typeof B>;
 
-    export const D = Literal(_C.A).Or(Literal(_C.B));
+    export const D = literal(_C.A).or(literal(_C.B));
 
-    export type D = Static<typeof D>;
+    export type D = Infer<typeof D>;
     "
   `)
 })

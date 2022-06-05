@@ -6,14 +6,7 @@ import { access, readFile } from 'fs/promises'
 import yaml from 'js-yaml'
 import yargs from 'yargs/yargs'
 import Generator from './Generator'
-import { Instructions } from './runtypes'
-
-if (process.argv[1] === 'rungen') {
-  console.warn(
-    'DEPRECATED: Use the `runtyping` bin command instead of `rungen`.'
-  )
-}
-
+import { Instructions } from './zod.types'
 ;(async () => {
   const argv = await yargs(process.argv.slice(2))
     .option('config', {
@@ -54,15 +47,7 @@ if (process.argv[1] === 'rungen') {
 })
 
 async function getConfigFile(path?: string) {
-  if (!path) {
-    try {
-      await access('runtypes.gen.yml', constants.F_OK)
-      path = 'runtypes.gen.yml'
-      console.warn('DEPRECATED: Please move runtypes.gen.yml to runtyping.yml')
-    } catch (e) {
-      path = 'runtyping.yml'
-    }
-  }
+  if (!path) path = 'zodtyping.yml'
 
   try {
     await access(path, constants.R_OK)

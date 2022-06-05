@@ -3,15 +3,15 @@ import generateFixture from './generateFixture'
 test('recursive', async () => {
   expect((await generateFixture('recursive', ['A', 'B'])).getText())
     .toMatchInlineSnapshot(`
-    "import { Lazy, Record, String, Static, Array } from 'runtypes';
+    "import { lazy, object, string, infer as Infer, array } from 'zod';
 
-    export const A = Lazy(() => Record({ recurse: String.Or(A), }));
+    export const A = lazy(() => object({ recurse: string().or(A), }));
 
-    export type A = Static<typeof A>;
+    export type A = Infer<typeof A>;
 
-    export const B = Lazy(() => Record({ recurse: Array(B), }));
+    export const B = lazy(() => object({ recurse: array(B), }));
 
-    export type B = Static<typeof B>;
+    export type B = Infer<typeof B>;
     "
   `)
 })
