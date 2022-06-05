@@ -22,7 +22,7 @@ import { Instructions } from './zod.types'
     }).argv
 
   const configFile = await getConfigFile(argv.config)
-  const buildInstructions = Instructions.check(
+  const buildInstructions = Instructions.parse(
     yaml.load(await readFile(configFile, 'utf8'))
   )
 
