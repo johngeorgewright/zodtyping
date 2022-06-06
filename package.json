@@ -7,7 +7,7 @@
   "scripts": {
     "build": "yarn clean && tsc --project tsconfig.json",
     "clean": "rimraf dist",
-    "schema": "typescript-json-schema --out zodtyping.schema.json src/zod.ts Instructions && prettier --write zodtyping.schema.json",
+    "schema": "typescript-json-schema --out zodtyping.schema.json src/zod.types.ts Instructions && prettier --write zodtyping.schema.json",
     "start": "concurrently --names build,test 'yarn start:build' 'yarn start:test'",
     "start:build": "tsc --watch --preserveWatchOutput",
     "start:test": "jest --watch",
