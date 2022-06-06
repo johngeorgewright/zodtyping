@@ -9434,7 +9434,6 @@ __metadata:
   peerDependencies:
     zod: ^3.0.0
   bin:
-    rungen: dist/cli.js
     zodtyping: dist/cli.js
   languageName: unknown
   linkType: soft
