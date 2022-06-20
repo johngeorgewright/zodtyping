@@ -8,6 +8,8 @@
   "typescript.tsdk": ".yarn/sdks/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "yaml.schemas": {
-    "./zodtyping.schema.json": ["zodtyping.yml"]
+    "./zodtyping.schema.json": [
+      "zodtyping.yml"
+    ]
   }
 }
