@@ -46,7 +46,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@semantic-release/release-notes-generator", "virtual:8d91da77e8cc26deefa96bbad28eb9cdb91105804a64e3c2e87ef11a813ebe15b1da1979d6b7cfefb75be07181694bb05481d416ea8cf04caa185d53e678961a#npm:10.0.3"],\
             ["@types/jest", "npm:28.1.3"],\
             ["@types/js-yaml", "npm:4.0.5"],\
-            ["@types/node", "npm:16.11.41"],\
+            ["@types/node", "npm:16.11.42"],\
             ["@types/source-map-support", "npm:0.5.4"],\
             ["@types/yargs", "npm:17.0.10"],\
             ["commitizen", "npm:4.2.4"],\
@@ -2804,10 +2804,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/node", [\
-        ["npm:16.11.41", {\
-          "packageLocation": "./.yarn/cache/@types-node-npm-16.11.41-e10b7bd53b-808e4d6575.zip/node_modules/@types/node/",\
+        ["npm:16.11.42", {\
+          "packageLocation": "./.yarn/cache/@types-node-npm-16.11.42-8f92746623-a1746910cf.zip/node_modules/@types/node/",\
           "packageDependencies": [\
-            ["@types/node", "npm:16.11.41"]\
+            ["@types/node", "npm:16.11.42"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -10360,7 +10360,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@tsconfig/node12", "npm:1.0.9"],\
             ["@tsconfig/node14", "npm:1.0.1"],\
             ["@tsconfig/node16", "npm:1.0.2"],\
-            ["@types/node", "npm:16.11.41"],\
+            ["@types/node", "npm:16.11.42"],\
             ["@types/swc__core", null],\
             ["@types/swc__wasm", null],\
             ["@types/typescript", null],\
@@ -11113,7 +11113,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@semantic-release/release-notes-generator", "virtual:8d91da77e8cc26deefa96bbad28eb9cdb91105804a64e3c2e87ef11a813ebe15b1da1979d6b7cfefb75be07181694bb05481d416ea8cf04caa185d53e678961a#npm:10.0.3"],\
             ["@types/jest", "npm:28.1.3"],\
             ["@types/js-yaml", "npm:4.0.5"],\
-            ["@types/node", "npm:16.11.41"],\
+            ["@types/node", "npm:16.11.42"],\
             ["@types/source-map-support", "npm:0.5.4"],\
             ["@types/yargs", "npm:17.0.10"],\
             ["commitizen", "npm:4.2.4"],\
