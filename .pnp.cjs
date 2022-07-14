@@ -63,7 +63,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["source-map-support", "npm:0.5.21"],\
             ["ts-jest", "virtual:8d91da77e8cc26deefa96bbad28eb9cdb91105804a64e3c2e87ef11a813ebe15b1da1979d6b7cfefb75be07181694bb05481d416ea8cf04caa185d53e678961a#npm:28.0.5"],\
             ["ts-morph", "npm:15.1.0"],\
-            ["ts-node", "virtual:8d91da77e8cc26deefa96bbad28eb9cdb91105804a64e3c2e87ef11a813ebe15b1da1979d6b7cfefb75be07181694bb05481d416ea8cf04caa185d53e678961a#npm:10.8.2"],\
+            ["ts-node", "virtual:8d91da77e8cc26deefa96bbad28eb9cdb91105804a64e3c2e87ef11a813ebe15b1da1979d6b7cfefb75be07181694bb05481d416ea8cf04caa185d53e678961a#npm:10.9.1"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"],\
             ["typescript-json-schema", "npm:0.54.0"],\
@@ -10487,10 +10487,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
-        ["npm:10.8.2", {\
-          "packageLocation": "./.yarn/cache/ts-node-npm-10.8.2-f3c0c9eaee-1eede939be.zip/node_modules/ts-node/",\
+        ["npm:10.9.1", {\
+          "packageLocation": "./.yarn/cache/ts-node-npm-10.9.1-6c268be7f4-090adff130.zip/node_modules/ts-node/",\
           "packageDependencies": [\
-            ["ts-node", "npm:10.8.2"]\
+            ["ts-node", "npm:10.9.1"]\
           ],\
           "linkType": "SOFT"\
         }],\
@@ -10520,10 +10520,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["virtual:8d91da77e8cc26deefa96bbad28eb9cdb91105804a64e3c2e87ef11a813ebe15b1da1979d6b7cfefb75be07181694bb05481d416ea8cf04caa185d53e678961a#npm:10.8.2", {\
-          "packageLocation": "./.yarn/__virtual__/ts-node-virtual-94171acaa8/0/cache/ts-node-npm-10.8.2-f3c0c9eaee-1eede939be.zip/node_modules/ts-node/",\
+        ["virtual:8d91da77e8cc26deefa96bbad28eb9cdb91105804a64e3c2e87ef11a813ebe15b1da1979d6b7cfefb75be07181694bb05481d416ea8cf04caa185d53e678961a#npm:10.9.1", {\
+          "packageLocation": "./.yarn/__virtual__/ts-node-virtual-0f0ef47c03/0/cache/ts-node-npm-10.9.1-6c268be7f4-090adff130.zip/node_modules/ts-node/",\
           "packageDependencies": [\
-            ["ts-node", "virtual:8d91da77e8cc26deefa96bbad28eb9cdb91105804a64e3c2e87ef11a813ebe15b1da1979d6b7cfefb75be07181694bb05481d416ea8cf04caa185d53e678961a#npm:10.8.2"],\
+            ["ts-node", "virtual:8d91da77e8cc26deefa96bbad28eb9cdb91105804a64e3c2e87ef11a813ebe15b1da1979d6b7cfefb75be07181694bb05481d416ea8cf04caa185d53e678961a#npm:10.9.1"],\
             ["@cspotcode/source-map-support", "npm:0.8.1"],\
             ["@swc/core", null],\
             ["@swc/wasm", null],\
@@ -11301,7 +11301,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["source-map-support", "npm:0.5.21"],\
             ["ts-jest", "virtual:8d91da77e8cc26deefa96bbad28eb9cdb91105804a64e3c2e87ef11a813ebe15b1da1979d6b7cfefb75be07181694bb05481d416ea8cf04caa185d53e678961a#npm:28.0.5"],\
             ["ts-morph", "npm:15.1.0"],\
-            ["ts-node", "virtual:8d91da77e8cc26deefa96bbad28eb9cdb91105804a64e3c2e87ef11a813ebe15b1da1979d6b7cfefb75be07181694bb05481d416ea8cf04caa185d53e678961a#npm:10.8.2"],\
+            ["ts-node", "virtual:8d91da77e8cc26deefa96bbad28eb9cdb91105804a64e3c2e87ef11a813ebe15b1da1979d6b7cfefb75be07181694bb05481d416ea8cf04caa185d53e678961a#npm:10.9.1"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"],\
             ["typescript-json-schema", "npm:0.54.0"],\
