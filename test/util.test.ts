@@ -23,4 +23,7 @@ test('getRelativeImportPath', () => {
     '../src/zod.mts'
   )
   expect(getRelativeImportPath(__dirname, 'zod')).toBe('zod')
+  expect(getRelativeImportPath('./test.ts', './test/recursive.ts')).toBe(
+    './test/recursive.ts'
+  )
 })

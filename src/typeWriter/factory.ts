@@ -13,11 +13,15 @@ import unionTypeWriter from './union'
 export default function factory(
   type: Type,
   name?: string,
-  { recursive = false }: { recursive?: boolean } = {}
+  {
+    recursive = false,
+    circular = false,
+  }: { recursive?: boolean; circular?: boolean } = {}
 ) {
   switch (true) {
+    case circular:
     case recursive:
-      return lazyTypeWriter(type)
+      return lazyTypeWriter(type, name)
 
     case type.isNull():
       return simpleTypeWriter('null')

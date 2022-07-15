@@ -9,11 +9,13 @@ import {
   IndentationText,
   InterfaceDeclaration,
   NewLineKind,
+  Node,
   OptionalKind,
   Project,
   QuoteKind,
   SourceFile,
   SyntaxKind,
+  ts,
   TypeAliasDeclaration,
   VariableDeclaration,
   VariableDeclarationKind,
@@ -23,6 +25,7 @@ import factory from './typeWriter/factory'
 import {
   Declare,
   DeclareAndUse,
+  DeclareType,
   Import,
   ImportFromSource,
   Static,
@@ -56,6 +59,7 @@ export type GeneratorOptions = GeneratorOptionsBase & {
 type SourceCodeFile = SourceFile
 
 export default class Generator {
+  #circularReferences = new Set<string>()
   #exports = new Set<string>()
   #formatRuntypeName: TypeNameFormatter
   #formatTypeName: TypeNameFormatter
@@ -183,12 +187,24 @@ export default class Generator {
     const typeName = this.#formatTypeName(sourceTypeLocalName)
     const typeDeclaration = this.#getTypeDeclaration(sourceFile, sourceType)
     const recursive = isRecursive(typeDeclaration)
+    const circular = isCircular(typeDeclaration)
 
     let staticImplementation: string | undefined
     let writer = this.#project.createWriter()
+    let runTypeType: string | undefined
+
+    if (circular) {
+      this.#circularReferences.add(typeName)
+      console.warn(
+        `Spotted a circular reference between \`${circular.join(
+          '` and `'
+        )}\`. This may cause infinite loops at runtime.`
+      )
+    }
 
     IteratorHandler.create(
       factory(typeDeclaration.getType(), typeDeclaration.getName(), {
+        circular: !!circular,
         recursive,
       })
     )
@@ -213,11 +229,18 @@ export default class Generator {
         const recursiveValue = recursive && value === typeName
         if (recursiveValue || this.#hasTypeDeclaration(sourceFile, value)) {
           writer = writer.write(this.#formatRuntypeName(value))
-          if (!recursiveValue && !this.#exports.has(value))
+          if (
+            !recursiveValue &&
+            !this.#exports.has(value) &&
+            !this.#circularReferences.has(value)
+          )
             this.#writeRuntype(sourceFile, value, sourceImports)
           return true
         }
         return undefined
+      })
+      .handle(DeclareType, (typeName) => {
+        runTypeType = typeName
       })
       .run()
 
@@ -229,6 +252,7 @@ export default class Generator {
           {
             name,
             initializer: writer.toString(),
+            type: runTypeType,
           },
         ],
       })
@@ -374,15 +398,66 @@ function importTypeNameRegExp(typeName: string) {
 
 function isRecursive(typeDeclaration: ConsideredTypeDeclaration) {
   const name = typeDeclaration.getName()
+  return !!name && findReferenceWithinDeclaration(name, typeDeclaration)
+}
 
+function findReferenceWithinDeclaration(
+  name: string,
+  typeDeclaration: ConsideredTypeDeclaration
+) {
   for (const node of typeDeclaration.getDescendantsOfKind(
     SyntaxKind.TypeReference
   )) {
     if (node.getText() === name) return true
   }
+  return false
+}
+
+function isCircular(typeDeclaration: ConsideredTypeDeclaration) {
+  const name = typeDeclaration.getName()
+  if (!name) return false
+
+  for (const originalReference of typeDeclaration.findReferences()) {
+    for (const reference of originalReference.getReferences()) {
+      const declarationNode = getNodeDeclaration(reference.getNode())
+      if (declarationNode) {
+        const declarationName = getNodeIdentifier(declarationNode)
+        if (
+          declarationName &&
+          declarationName !== name &&
+          findReferenceWithinDeclaration(
+            name,
+            declarationNode as ConsideredTypeDeclaration
+          ) &&
+          findReferenceWithinDeclaration(declarationName, typeDeclaration)
+        ) {
+          return [declarationName, name]
+        }
+      }
+    }
+  }
 
   return false
 }
+
+function getNodeDeclaration(node: Node<ts.Node>) {
+  return find(
+    ConsideredTypeDeclarationSyntaxKinds,
+    (syntaxKind) => node.getFirstAncestorByKind(syntaxKind) || false
+  )
+}
+
+function getNodeIdentifier(node: Node<ts.Node>) {
+  return node.getFirstDescendantByKind(SyntaxKind.Identifier)?.getText()
+}
+
+const ConsideredTypeDeclarationSyntaxKinds = [
+  SyntaxKind.InterfaceDeclaration,
+  SyntaxKind.TypeAliasDeclaration,
+  SyntaxKind.EnumDeclaration,
+  SyntaxKind.FunctionDeclaration,
+  SyntaxKind.VariableDeclaration,
+]
 
 type ConsideredTypeDeclaration =
   | InterfaceDeclaration
