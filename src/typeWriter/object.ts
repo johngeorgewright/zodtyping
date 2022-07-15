@@ -2,7 +2,6 @@ import { SymbolFlags, ts, Type } from 'ts-morph'
 import generateOrReuseType from './generateOrReuseType'
 import TypeWriter from './TypeWriter'
 import { Import, Static, StaticParameters, Write } from './symbols'
-import factory from './factory'
 
 export default function* objectTypeWriter(type: Type): TypeWriter {
   if (isBuiltInType(type)) yield* generateBuildInType(type)
