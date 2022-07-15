@@ -1,6 +1,6 @@
 {
   "name": "zodtyping",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Generate zod types from static types & JSON schema.",
   "main": "dist/index.js",
   "bin": "dist/cli.js",
