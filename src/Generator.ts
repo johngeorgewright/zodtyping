@@ -211,7 +211,12 @@ export default class Generator {
       .handle(Declare, (value): DeclaredType => {
         const typeName = this.#getLocalName(sourceFile, value)
         return !recursive && !this.#exports.has(typeName)
-          ? this.#writeRuntype(sourceFile, typeName, sourceImports)
+          ? this.#writeRuntype(
+              sourceFile,
+              value,
+              sourceImports,
+              exportStaticType
+            )
           : // TODO: this probably isn't right
             { runTypeName: typeName, typeName: typeName }
       })
@@ -220,7 +225,12 @@ export default class Generator {
         if (recursiveValue || this.#hasTypeDeclaration(sourceFile, value)) {
           writer = writer.write(this.#formatRuntypeName(value))
           if (!recursiveValue && !this.#exports.has(value))
-            this.#writeRuntype(sourceFile, value, sourceImports)
+            this.#writeRuntype(
+              sourceFile,
+              value,
+              sourceImports,
+              exportStaticType
+            )
           return true
         }
         return undefined
