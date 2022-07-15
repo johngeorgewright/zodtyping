@@ -17,6 +17,7 @@ import {
   SyntaxKind,
   ts,
   TypeAliasDeclaration,
+  TypeParameterDeclarationStructure,
   VariableDeclaration,
   VariableDeclarationKind,
 } from 'ts-morph'
@@ -29,6 +30,7 @@ import {
   Import,
   ImportFromSource,
   Static,
+  StaticParameters,
   Write,
 } from './typeWriter/symbols'
 import typeNameFormatter, { TypeNameFormatter } from './typeNameFormatter'
@@ -190,6 +192,9 @@ export default class Generator {
     const circular = isCircular(typeDeclaration)
 
     let staticImplementation: string | undefined
+    let staticTypeParameters:
+      | (string | OptionalKind<TypeParameterDeclarationStructure>)[]
+      | undefined
     let writer = this.#project.createWriter()
     let runTypeType: string | undefined
 
@@ -217,6 +222,9 @@ export default class Generator {
       })
       .handle(Static, (value) => {
         staticImplementation = value
+      })
+      .handle(StaticParameters, (value) => {
+        staticTypeParameters = value
       })
       .handle(Declare, (value): DeclaredType => {
         const typeName = this.#getLocalName(sourceFile, value)
@@ -277,6 +285,7 @@ export default class Generator {
           isExported: true,
           name: typeName.split('.').reduceRight((x) => x),
           type: staticImplementation,
+          typeParameters: staticTypeParameters,
         })
       }
     })

@@ -35,7 +35,8 @@ export default async function generateFixture(
   try {
     eval(js)
   } catch (error) {
-    console.info(js)
+    console.info('=== TS ===\n' + sourceFile.getText())
+    console.info('=== JS ===\n' + js)
     throw error
   }
 
