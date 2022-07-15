@@ -23,6 +23,7 @@ export function getRelativeImportPath(localPath: string, remotePath: string) {
   if (!/^(\/|\.)/.test(remotePath)) return remotePath
   const localDir = dirname(localPath)
   const remoteDir = dirname(remotePath)
+  if (localDir === '.' && remoteDir.startsWith('./')) return remotePath
   const remoteBasename = basename(remotePath, extname(remotePath))
   const remoteExtname = remotePath.endsWith('.ts') ? '' : extname(remotePath)
   return `${
