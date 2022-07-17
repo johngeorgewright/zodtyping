@@ -1,3 +1,4 @@
+import { OptionalKind, TypeParameterDeclarationStructure } from 'ts-morph'
 import {
   Declare,
   DeclareAndUse,
@@ -5,6 +6,7 @@ import {
   Import,
   ImportFromSource,
   Static,
+  StaticParameters,
   Write,
 } from './symbols'
 
@@ -21,7 +23,11 @@ type TypeWriter<R = any> = Generator<
   | [action: typeof Declare, name: string]
   | [action: typeof DeclareAndUse, name: string]
   | [action: typeof DeclareType, type: string]
-  | [action: typeof Static, staticImplementation: string],
+  | [action: typeof Static, staticImplementation: string]
+  | [
+      action: typeof StaticParameters,
+      parameters: (string | OptionalKind<TypeParameterDeclarationStructure>)[]
+    ],
   R,
   undefined | boolean | DeclaredType
 >
