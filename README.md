@@ -1,3 +1,5 @@
+# ⚠️ DEPRECATED - see https://github.com/johngeorgewright/runtyping/tree/master/packages/zod
+
 # zodtyping
 
 Generate [zod](https://github.com/colinhacks/zod) from static types & JSON schema.
